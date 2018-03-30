@@ -3,12 +3,14 @@ if ($Message = db_string($_POST['message'])) {
 	if ($Subject = db_string($_POST['subject'])) {
 		// New staff PM conversation
 		assert_numbers($_POST, array('level'), 'Invalid recipient');
+		$Level = db_string($_POST['level']);
 		$DB->query("
 			INSERT INTO staff_pm_conversations
 				(Subject, Status, Level, UserID, Date)
 			VALUES
-				('$Subject', 'Unanswered', $_POST[level], $LoggedUser[ID], '".sqltime()."')"
+				('$Subject', 'Unanswered', $Level, $LoggedUser[ID], '".sqltime()."')"
 		);
+
 
 		// New message
 		$ConvID = $DB->inserted_id();
